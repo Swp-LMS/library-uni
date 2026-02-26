@@ -1,0 +1,363 @@
+cd<!doctype html>
+<html lang="vi" data-bs-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <title>Notifications — Library</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <style>
+      /* ====== Palette / helpers (embedded, không đụng style.css) ====== */
+      :root {
+        --ocean-from: #0c4a6e;
+        --ocean-to: #0891b2;
+        --ocean-accent: #06b6d4;
+        --border-fade: rgba(6, 182, 212, 0.18);
+        --pill-shadow: 0 8px 24px rgba(12, 74, 110, 0.1);
+      }
+      body {
+        background: linear-gradient(180deg, rgba(6, 182, 212, 0.06), transparent 220px) no-repeat;
+      }
+
+      /* ====== Page header ====== */
+      .page-hero {
+        background: linear-gradient(135deg, var(--ocean-from), var(--ocean-to));
+        color: #fff;
+        border-radius: 18px;
+        padding: 20px 22px;
+        margin: 18px 0 12px;
+        box-shadow: var(--pill-shadow);
+      }
+      .page-hero h1 {
+        font-size: 1.15rem;
+        margin: 0;
+      }
+      .hero-actions .btn {
+        --bs-btn-color: #e6faff;
+        --bs-btn-border-color: #e6faff33;
+      }
+      .hero-actions .btn:hover {
+        background: #ffffff22;
+        border-color: #ffffff55;
+      }
+
+      /* ====== Filter pills ====== */
+      .filter-wrap {
+        gap: 0.5rem;
+      }
+      .filter-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        border: 1px solid var(--border-fade);
+        background: #fff;
+        border-radius: 999px;
+        padding: 0.45rem 0.9rem;
+        font-weight: 600;
+        box-shadow: var(--pill-shadow);
+        transition: all 0.15s ease;
+      }
+      .filter-btn:hover {
+        transform: translateY(-2px);
+      }
+      .filter-btn.active {
+        color: #fff;
+        background: linear-gradient(135deg, var(--ocean-from), var(--ocean-to));
+        border-color: transparent;
+      }
+
+      /* ====== List ====== */
+      .noti-list {
+        margin-top: 0.5rem;
+      }
+      .noti-card {
+        display: grid;
+        grid-template-columns: 52px 1fr auto;
+        gap: 14px;
+        padding: 16px 18px;
+        margin-bottom: 10px;
+        border-radius: 16px;
+        background: #fff;
+        border: 1px solid var(--border-fade);
+        box-shadow: var(--pill-shadow);
+        transition:
+          transform 0.15s,
+          box-shadow 0.15s,
+          border-color 0.15s;
+      }
+      .noti-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 28px rgba(12, 74, 110, 0.14);
+      }
+      .noti-card.unread {
+        position: relative;
+      }
+      .noti-card.unread::after {
+        content: 'Chưa đọc';
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        background: #fff;
+        color: #0b5f78;
+        border: 1px dashed #0b5f7866;
+        border-radius: 999px;
+        padding: 0.1rem 0.5rem;
+        font-size: 0.7rem;
+        font-weight: 700;
+      }
+
+      .noti-ico {
+        width: 52px;
+        height: 52px;
+        border-radius: 14px;
+        display: grid;
+        place-items: center;
+        font-size: 1.25rem;
+        color: #0b5f78;
+      }
+      /* màu theo type (data-type) */
+      .noti-card[data-type='reservation_approved'] {
+        border-left: 5px solid #10b981;
+      }
+      .noti-card[data-type='reservation_created'] {
+        border-left: 5px solid #f59e0b;
+      }
+      .noti-card[data-type='reminder'] {
+        border-left: 5px solid #3b82f6;
+      }
+      .noti-card[data-type='system'] {
+        border-left: 5px solid #8b5cf6;
+      }
+
+      .noti-ico.approved {
+        background: #10b9811a;
+        color: #0a7f5a;
+      }
+      .noti-ico.created {
+        background: #f59e0b1a;
+        color: #a56205;
+      }
+      .noti-ico.reminder {
+        background: #3b82f61a;
+        color: #1f4fbf;
+      }
+      .noti-ico.system {
+        background: #8b5cf61a;
+        color: #5b21b6;
+      }
+
+      .noti-title {
+        font-weight: 800;
+      }
+      .noti-msg {
+        font-size: 0.96rem;
+        color: #475569;
+      }
+      .noti-time {
+        font-size: 0.85rem;
+        color: #64748b;
+      }
+
+      .link-ghost {
+        color: #0c4a6e;
+        text-decoration: none;
+      }
+      .link-ghost:hover {
+        text-decoration: underline;
+      }
+
+      /* skeleton */
+      .skeleton {
+        background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 37%, #f3f4f6 63%);
+        background-size: 400% 100%;
+        animation: pulse 1.15s ease-in-out infinite;
+        height: 80px;
+        border-radius: 16px;
+        margin-bottom: 10px;
+      }
+      @keyframes pulse {
+        0% {
+          background-position: 100% 0;
+        }
+        100% {
+          background-position: 0 0;
+        }
+      }
+
+      .empty {
+        border: 1px dashed var(--border-fade);
+        border-radius: 16px;
+        padding: 36px;
+        background: #fff;
+        text-align: center;
+        color: #64748b;
+      }
+      .empty .emoji {
+        font-size: 46px;
+        line-height: 1;
+        display: block;
+        margin-bottom: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app-navbar"></div>
+
+    <main class="container" style="max-width: 960px">
+      <!-- Hero -->
+      <div class="page-hero d-flex align-items-center justify-content-between">
+        <div>
+          <h1 class="mb-1">Thông báo</h1>
+          <div class="opacity-75 small">Theo dõi cập nhật mượn/đặt sách của bạn</div>
+        </div>
+        <div class="hero-actions d-flex align-items-center gap-2">
+          <button id="btnMarkAllPage" class="btn btn-outline-light btn-sm">
+            <i class="bi bi-check2-all me-1"></i> Đánh dấu đã đọc hết
+          </button>
+          <a href="javascript:history.back()" class="btn btn-outline-light btn-sm">
+            <i class="bi bi-arrow-left-short me-1"></i> Quay lại
+          </a>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="d-flex filter-wrap my-2">
+        <button id="tabAll" class="filter-btn active"><i class="bi bi-inbox"></i> Tất cả</button>
+        <button id="tabUnread" class="filter-btn"><i class="bi bi-bell-fill"></i> Chưa đọc</button>
+      </div>
+
+      <!-- List -->
+      <div id="notiContainer" class="noti-list"></div>
+      <div id="notiEmpty" class="empty d-none">
+        <span class="emoji">🔔</span>
+        Chưa có thông báo. Khi có cập nhật mới, chúng tôi sẽ hiển thị tại đây.
+      </div>
+    </main>
+
+    <script type="module">
+      import { renderNavbar } from './assets/js/nav.js';
+      renderNavbar();
+
+      const API = 'http://localhost:3000/api/notifications';
+      const token = localStorage.getItem('token');
+      if (!token) location.href = 'login.html?next=notifications.html';
+      const auth = { Authorization: `Bearer ${token}` };
+
+      const wrap = document.getElementById('notiContainer');
+      const empty = document.getElementById('notiEmpty');
+      const tabAll = document.getElementById('tabAll');
+      const tabUnread = document.getElementById('tabUnread');
+      const btnMarkAll = document.getElementById('btnMarkAllPage');
+
+      let currentFilter = 'all';
+
+      const esc = (s = '') =>
+        s.replace(
+          /[&<>"']/g,
+          (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c],
+        );
+      const tstr = (d) => new Date(d).toLocaleString();
+      const icon = (t) => {
+        switch (String(t || '').toLowerCase()) {
+          case 'reservation_created':
+            return { cls: 'created', bi: 'bi-journal-plus' };
+          case 'reservation_approved':
+            return { cls: 'approved', bi: 'bi-check2-circle' };
+          case 'reminder':
+            return { cls: 'reminder', bi: 'bi-alarm' };
+          case 'system':
+            return { cls: 'system', bi: 'bi-info-circle' };
+          default:
+            return { cls: 'system', bi: 'bi-bell' };
+        }
+      };
+
+      const renderSkeleton = () => {
+        wrap.innerHTML = `<div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>`;
+        empty.classList.add('d-none');
+      };
+
+      function render(items) {
+        if (!items.length) {
+          wrap.innerHTML = '';
+          empty.classList.remove('d-none');
+          return;
+        }
+        empty.classList.add('d-none');
+        wrap.innerHTML = items
+          .map((n) => {
+            const i = icon(n.type);
+            const unread = !n.isRead;
+            return `
+          <div class="noti-card ${unread ? 'unread' : ''}" data-type="${esc(n.type || 'system')}">
+            <div class="noti-ico ${i.cls}"><i class="bi ${i.bi}"></i></div>
+            <div>
+              <div class="d-flex align-items-center gap-2">
+                <div class="noti-title">${esc(n.title || 'Thông báo')}</div>
+              </div>
+              <div class="noti-msg mt-1">${esc(n.message || '')}</div>
+            </div>
+            <div class="text-end">
+              <div class="noti-time">${tstr(n.createdAt)}</div>
+              ${unread ? `<button class="btn btn-link btn-sm p-0 mt-1 link-ghost" data-read="${n.id}">Đánh dấu đã đọc</button>` : ''}
+            </div>
+          </div>`;
+          })
+          .join('');
+
+        // bind mark-read
+        wrap.querySelectorAll('[data-read]').forEach((b) => {
+          b.addEventListener('click', async (e) => {
+            const id = e.currentTarget.getAttribute('data-read');
+            await fetch(`${API}/${id}/read`, { method: 'PATCH', headers: auth });
+            load();
+            window.dispatchEvent(new CustomEvent('noti:updated'));
+          });
+        });
+      }
+
+      async function load() {
+        try {
+          renderSkeleton();
+          const url = currentFilter === 'unread' ? `${API}?unread=true` : API;
+          const r = await fetch(url, { headers: auth });
+          const j = await r.json();
+          render(j?.data || []);
+        } catch {
+          wrap.innerHTML = `<div class="alert alert-danger">Không tải được dữ liệu.</div>`;
+        }
+      }
+
+      // filters
+      tabAll.addEventListener('click', () => {
+        tabAll.classList.add('active');
+        tabUnread.classList.remove('active');
+        currentFilter = 'all';
+        load();
+      });
+      tabUnread.addEventListener('click', () => {
+        tabUnread.classList.add('active');
+        tabAll.classList.remove('active');
+        currentFilter = 'unread';
+        load();
+      });
+
+      // mark all
+      btnMarkAll.addEventListener('click', async () => {
+        await fetch(`${API}/read-all`, { method: 'PATCH', headers: auth });
+        load();
+        window.dispatchEvent(new CustomEvent('noti:updated'));
+      });
+
+      load();
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

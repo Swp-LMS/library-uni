@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <title>Register — Library</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Theme + Auth style -->
+    <link href="assets/css/style.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    />
+    <script src="https://unpkg.com/face-api.js@0.22.2/dist/face-api.min.js"></script>
+    <script src="assets/js/register-face-check.js" type="module"></script>
+  </head>
+
+  <body class="auth-body">
+    <div id="app-navbar"></div>
+
+    <!-- Nền sách & bong bóng -->
+    <div class="auth-bg-books">
+      <div class="book-orb orb-1"><i class="bi bi-book"></i></div>
+      <div class="book-orb orb-2"><i class="bi bi-book-half"></i></div>
+      <div class="book-orb orb-3"><i class="bi bi-journal-bookmark"></i></div>
+      <div class="book-orb orb-4"><i class="bi bi-journal-richtext"></i></div>
+      <div class="book-orb orb-5"><i class="bi bi-book"></i></div>
+    </div>
+
+    <main class="auth-main w-100 px-2 px-md-0">
+      <div class="auth-card card">
+        <div class="row g-0">
+          <!-- LEFT: panel xanh -->
+          <div
+            class="col-12 col-md-6 auth-right d-flex align-items-center justify-content-center p-4 p-md-5"
+          >
+            <div class="auth-right-inner text-center">
+              <h2 class="h3 mb-3">Welcome Back!</h2>
+              <p class="mb-4 small opacity-75">
+                Already have an account?<br />
+                Log in to continue exploring our library.
+              </p>
+              <a href="login.html" class="btn btn-light rounded-pill px-4" id="btnGoLogin">
+                Login
+              </a>
+            </div>
+          </div>
+
+          <!-- RIGHT: form Register -->
+          <div class="col-12 col-md-6 auth-left p-4 p-md-5">
+            <div class="auth-left-content">
+              <h1 class="h4 mb-2 auth-title">Create account</h1>
+              <p class="mb-3 auth-subtitle">Join our library and start borrowing books.</p>
+
+              <div id="msg"></div>
+
+              <form id="registerForm" novalidate>
+                <!-- Row 1: Name + Email -->
+                <div class="row">
+                  <div class="col-12 col-md-6 mb-3">
+                    <label class="form-label">Full name</label>
+                    <input id="name" class="form-control" placeholder="Nguyen Van A" required />
+                  </div>
+                  <div class="col-12 col-md-6 mb-3">
+                    <label class="form-label">Email</label>
+                    <input
+                      id="email"
+                      type="email"
+                      class="form-control"
+                      placeholder="you@example.com"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <!-- Row 2: Phone + Address -->
+                <div class="row">
+                  <div class="col-12 col-md-6 mb-3">
+                    <label class="form-label">Phone</label>
+                    <input id="phone" type="tel" class="form-control" placeholder="0901234567" />
+                  </div>
+                  <div class="col-12 col-md-6 mb-3">
+                    <label class="form-label">Address</label>
+                    <input
+                      id="address"
+                      type="text"
+                      class="form-control"
+                      placeholder="123 Nguyen Trai, Ha Noi"
+                    />
+                  </div>
+                </div>
+
+                <!-- Row 3: Password + Confirm -->
+                <div class="row">
+                  <div class="col-12 col-md-6 mb-3">
+                    <label class="form-label">Password</label>
+                    <input
+                      id="password"
+                      type="password"
+                      class="form-control"
+                      placeholder="Min 8 characters"
+                      required
+                      minlength="8"
+                    />
+                  </div>
+                  <div class="col-12 col-md-6 mb-3">
+                    <label class="form-label">Confirm password</label>
+                    <input
+                      id="confirm"
+                      type="password"
+                      class="form-control"
+                      required
+                      minlength="8"
+                    />
+                  </div>
+                </div>
+
+                <!-- 🔐 Password strength indicator -->
+                <div class="mb-3">
+                  <label class="form-label">Password strength</label>
+                  <div class="progress" style="height: 6px">
+                    <div
+                      id="pwdStrengthBar"
+                      class="progress-bar"
+                      role="progressbar"
+                      style="width: 0%"
+                      aria-valuemin="0"
+                      aria-valuemax="4"
+                    ></div>
+                  </div>
+                  <div id="pwdStrengthText" class="small mt-1 text-muted"></div>
+                </div>
+
+                <!-- Row 4: Face capture (REQUIRED) -->
+                <div class="mb-3">
+                  <label class="form-label">Face photo (required)</label>
+                  <div class="d-flex flex-column gap-2">
+                    <video
+                      id="regVideo"
+                      autoplay
+                      playsinline
+                      style="max-width: 260px; border-radius: 8px; border: 1px solid #ddd"
+                    ></video>
+                    <canvas id="regCanvas" style="display: none"></canvas>
+
+                    <div class="d-flex gap-2 flex-wrap">
+                      <button
+                        type="button"
+                        id="btnStartCam"
+                        class="btn btn-outline-secondary btn-sm"
+                      >
+                        <i class="bi bi-camera-video"></i> Turn on camera
+                      </button>
+                      <button
+                        type="button"
+                        id="btnCapture"
+                        class="btn btn-secondary btn-sm"
+                        disabled
+                      >
+                        <i class="bi bi-camera"></i> Capture
+                      </button>
+                    </div>
+
+                    <img
+                      id="regPreview"
+                      alt="Preview"
+                      class="mt-2 rounded"
+                      style="
+                        max-width: 140px;
+                        display: none;
+                        object-fit: cover;
+                        aspect-ratio: 1 / 1;
+                      "
+                    />
+                    <small class="text-muted">
+                      This photo will be saved as your avatar and is required to create an account.
+                    </small>
+                  </div>
+                </div>
+
+                <div class="d-grid">
+                  <button class="btn btn-primary" type="submit">Sign up</button>
+                </div>
+
+                <div class="text-center mt-3 small">
+                  Or continue with your existing account?
+                  <a href="login.html" id="linkLoginInline">Log in</a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script type="module">
+      import { renderNavbar } from './assets/js/nav.js';
+      import { initRegister } from './assets/js/auth.js';
+
+      renderNavbar();
+      initRegister();
+
+      const authCard = document.querySelector('.auth-card');
+      const btnGoLogin = document.getElementById('btnGoLogin');
+      const linkLoginInline = document.getElementById('linkLoginInline');
+
+      function goLoginWithAnim(e) {
+        e.preventDefault();
+        authCard?.classList.add('anim-to-login');
+        setTimeout(() => {
+          location.href = 'login.html';
+        }, 650);
+      }
+
+      btnGoLogin?.addEventListener('click', goLoginWithAnim);
+      linkLoginInline?.addEventListener('click', goLoginWithAnim);
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
