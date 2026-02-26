@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <title>Settings — Librarian</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link href="assets/css/style.css" rel="stylesheet" />
+    <link href="assets/css/admin.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <div class="admin-wrap">
+      <!-- Sidebar -->
+      <aside class="admin-sidebar">
+        <div class="admin-brand">
+          <i class="bi bi-shield-lock"></i> Librarian Panel
+          <span class="badge badge-accent ms-2">Library</span>
+        </div>
+        <nav class="admin-nav">
+          <a href="librarian-dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a>
+          <a href="librarian-books.html"><i class="bi bi-journal-text"></i> Books</a>
+          <a href="librarian-users.html" class="active"><i class="bi bi-people"></i> Users</a>
+          <!-- NEW: Loans menu -->
+          <a href="librarian-loans.html"><i class="bi bi-journal-plus"></i> Loans</a>
+          <a href="librarian-holds.html"><i class="bi bi-bell"></i> Holds</a>
+          <a href="librarian-overdue.html"><i class="bi bi-exclamation-octagon"></i> Overdue</a>
+          <a href="librarian-blacklist.html"><i class="bi bi-person-x"></i> Blacklist</a>
+          <a href="librarian-setting.html"><i class="bi bi-gear"></i> Settings</a>
+        </nav>
+        <div class="px-3 pb-3 small" style="opacity: 0.85">
+          <hr class="border border-white border-opacity-25" />
+          <div>Theme</div>
+          <button id="btnTheme" class="btn btn-sm btn-light mt-2">
+            <i class="bi bi-moon-stars"></i> Toggle
+          </button>
+
+          <hr class="border border-white border-opacity-25 my-3" />
+          <button id="btnLogout" class="btn btn-sm btn-outline-light w-100 mt-2">
+            <i class="bi bi-box-arrow-right"></i> Logout
+          </button>
+        </div>
+      </aside>
+
+      <!-- Main content -->
+      <main class="admin-content">
+        <header class="bg-white border-bottom">
+          <div class="container py-3">
+            <h1 class="h5 mb-0">Library Settings</h1>
+          </div>
+        </header>
+
+        <section class="container my-4">
+          <form id="settingsForm" class="card admin p-3 p-md-4" style="max-width: 720px">
+            <div class="row g-3">
+              <div class="col-12 col-md-6">
+                <label class="form-label">Loan duration (days)</label>
+                <input id="loanDays" type="number" min="1" class="form-control" required />
+              </div>
+              <div class="col-12 col-md-6">
+                <label class="form-label">Max books per user</label>
+                <input id="maxBooks" type="number" min="1" class="form-control" required />
+              </div>
+              <div class="col-12 col-md-6">
+                <label class="form-label">Fine per late day</label>
+                <input
+                  id="finePerDay"
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <div class="col-12 col-md-6">
+                <label class="form-label">Hold expire after (days)</label>
+                <input id="holdExpireDays" type="number" min="1" class="form-control" required />
+              </div>
+              <div class="col-12">
+                <label class="form-label">Opening hours / Notes</label>
+                <textarea
+                  id="notes"
+                  rows="3"
+                  class="form-control"
+                  placeholder="e.g., Mon–Fri 8:00–18:00; closed: Sunday"
+                ></textarea>
+              </div>
+            </div>
+
+            <div class="mt-3 d-flex gap-2">
+              <button class="btn btn-primary" type="submit"><i class="bi bi-save"></i> Save</button>
+              <button class="btn btn-outline-secondary" type="button" id="btnReload">
+                <i class="bi bi-arrow-clockwise"></i> Reload
+              </button>
+            </div>
+
+            <div class="form-text mt-2">
+              Các thay đổi áp dụng cho giao dịch mới; giao dịch đang diễn ra giữ nguyên.
+            </div>
+          </form>
+          <div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastArea"></div>
+        </section>
+      </main>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module">
+      // Toggle theme
+      const btn = document.getElementById('btnTheme');
+      if (btn) {
+        btn.addEventListener('click', () => {
+          const cur = document.documentElement.getAttribute('data-bs-theme') || 'light';
+          const next = cur === 'light' ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-bs-theme', next);
+          localStorage.setItem('theme', next);
+        });
+      }
+      // Load saved theme
+      (function () {
+        const saved = localStorage.getItem('theme');
+        if (saved) document.documentElement.setAttribute('data-bs-theme', saved);
+      })();
+
+      // Auto highlight current sidebar link
+      (function () {
+        const cur = location.pathname.split('/').pop();
+        document.querySelectorAll('.admin-nav a').forEach((a) => {
+          if (a.getAttribute('href')?.endsWith(cur)) a.classList.add('active');
+          else a.classList.remove('active');
+        });
+      })();
+
+      // Import settings script
+      import { initSettings } from './assets/js/settings.js';
+      initSettings();
+    </script>
+
+    <!-- Logout Modal -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title"><i class="bi bi-box-arrow-right me-2"></i>Confirm logout</h5>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">You're about to sign out of the Librarian Panel.</div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-danger" id="confirmLogoutBtn">
+              <i class="bi bi-box-arrow-right me-1"></i> Logout
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      // Logout handler with modal
+      const logoutModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+
+      document.getElementById('btnLogout')?.addEventListener('click', () => {
+        logoutModal.show();
+      });
+
+      document.getElementById('confirmLogoutBtn')?.addEventListener('click', () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        window.location.href = 'login.html';
+      });
+    </script>
+  </body>
+</html>
