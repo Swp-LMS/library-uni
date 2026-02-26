@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <title>Face Verification — Library</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Theme -->
+    <link href="assets/css/style.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    />
+
+    <!-- face-api -->
+    <script src="https://unpkg.com/face-api.js@0.22.2/dist/face-api.min.js"></script>
+  </head>
+
+  <body class="auth-body">
+    <div id="app-navbar"></div>
+
+    <!-- Nền sách & bong bóng giống trang register -->
+    <div class="auth-bg-books">
+      <div class="book-orb orb-1"><i class="bi bi-book"></i></div>
+      <div class="book-orb orb-2"><i class="bi bi-book-half"></i></div>
+      <div class="book-orb orb-3"><i class="bi bi-journal-bookmark"></i></div>
+      <div class="book-orb orb-4"><i class="bi bi-journal-richtext"></i></div>
+      <div class="book-orb orb-5"><i class="bi bi-book"></i></div>
+    </div>
+
+    <main class="auth-main w-100 px-2 px-md-0">
+      <div class="auth-card card">
+        <div class="row g-0">
+          <!-- LEFT: Info -->
+          <div
+            class="col-12 col-md-5 auth-right d-flex align-items-center justify-content-center p-4 p-md-5"
+          >
+            <div class="auth-right-inner">
+              <h2 class="h4 mb-3">Face verification</h2>
+              <p class="small opacity-75 mb-3">
+                You’ve signed in with Google. For security, we need a face photo for your account
+                once. After saving, you can use the library normally.
+              </p>
+
+              <ul class="small mb-0">
+                <li>Make sure your face is clearly visible.</li>
+                <li>Only one person in the frame.</li>
+                <li>Good lighting and look straight at the camera.</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- RIGHT: Camera -->
+          <div class="col-12 col-md-7 auth-left p-4 p-md-5">
+            <div class="auth-left-content">
+              <h1 class="h5 mb-2 auth-title">Capture your face</h1>
+              <p class="mb-3 auth-subtitle">
+                This photo is stored securely and only used for account verification.
+              </p>
+
+              <div id="msg"></div>
+
+              <div class="row">
+                <div class="col-12 col-lg-7 mb-3">
+                  <div class="mb-2">
+                    <video
+                      id="gfVideo"
+                      autoplay
+                      playsinline
+                      style="max-width: 100%; border-radius: 10px; border: 1px solid #ddd"
+                    ></video>
+                    <canvas id="gfCanvas" style="display: none"></canvas>
+                  </div>
+
+                  <div class="d-flex gap-2 flex-wrap mb-2">
+                    <button
+                      type="button"
+                      id="gfBtnStartCam"
+                      class="btn btn-outline-secondary btn-sm"
+                    >
+                      <i class="bi bi-camera-video"></i> Turn on camera
+                    </button>
+                    <button
+                      type="button"
+                      id="gfBtnCapture"
+                      class="btn btn-secondary btn-sm"
+                      disabled
+                    >
+                      <i class="bi bi-camera"></i> Capture
+                    </button>
+                  </div>
+                </div>
+
+                <div class="col-12 col-lg-5 mb-3">
+                  <label class="form-label">Preview</label>
+                  <div
+                    class="border rounded d-flex align-items-center justify-content-center"
+                    style="width: 100%; max-width: 220px; aspect-ratio: 1 / 1; overflow: hidden"
+                  >
+                    <img
+                      id="gfPreview"
+                      alt="Preview"
+                      style="width: 100%; height: 100%; object-fit: cover; display: none"
+                    />
+                    <span id="gfPreviewPlaceholder" class="text-muted small">No photo yet</span>
+                  </div>
+
+                  <small class="text-muted d-block mt-2">
+                    Click <strong>Save & Continue</strong> after capturing a clear face.
+                  </small>
+                </div>
+              </div>
+
+              <div class="d-flex justify-content-between mt-3">
+                <a href="login.html" class="btn btn-outline-secondary btn-sm">
+                  <i class="bi bi-arrow-left"></i> Back to login
+                </a>
+                <button id="gfBtnSave" class="btn btn-primary btn-sm" disabled>
+                  Save &amp; Continue
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script type="module">
+      import { renderNavbar } from './assets/js/nav.js';
+      import { initGoogleFace } from './assets/js/google-face.js';
+
+      renderNavbar();
+      initGoogleFace();
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
