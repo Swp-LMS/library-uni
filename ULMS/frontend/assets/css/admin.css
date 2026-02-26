@@ -1,0 +1,823 @@
+/* ============================================================
+   🔹 ADMIN DASHBOARD STYLES
+   ============================================================ */
+
+/* ===== Biến màu gốc (dùng chung với style.css) ===== */
+:root {
+    --hero-from: #053d88;
+    --hero-to: #074aa8;
+    --hero-accent: #d1b066;
+}
+
+/* ============================================================
+   🔹 LAYOUT CHUNG
+   ============================================================ */
+.admin-wrap {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    min-height: 100vh;
+}
+
+.admin-sidebar {
+    background: linear-gradient(180deg, var(--hero-from), var(--hero-to));
+    color: #fff;
+    position: sticky;
+    top: 0;
+    height: 100dvh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ✅ Sidebar footer (Theme + Logout) cố định ở dưới */
+.admin-sidebar-footer {
+    margin-top: auto;
+    padding: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.admin-brand {
+    padding: 16px 20px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.admin-nav {
+    padding: 12px;
+}
+
+.admin-nav a {
+    color: #eaf2ff;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    transition:
+        background 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+        border-left 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.2s ease,
+        padding-left 0.25s ease,
+        box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+        color 0.25s ease;
+    border-left: 3px solid transparent;
+    position: relative;
+}
+
+.admin-nav a i {
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.admin-nav a:hover {
+    background: rgba(255, 255, 255, 0.12);
+    transform: translateX(2px);
+}
+
+.admin-nav a:hover i {
+    transform: scale(1.1);
+}
+
+.admin-nav a:active {
+    transform: translateX(0);
+}
+
+.admin-nav a:active i {
+    transform: scale(0.95);
+}
+
+/* ✅ Active state: background nhạt + viền trái với animation mượt - GIỐNG NÚT LOANS */
+.admin-nav a.active {
+    background: rgba(255, 255, 255, 0.18) !important;
+    font-weight: 600 !important;
+    border-left: 3px solid var(--hero-accent) !important;
+    padding-left: 15px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+    color: #fff !important;
+}
+
+.admin-nav a.active i {
+    transform: scale(1.05) !important;
+    color: #fff !important;
+}
+
+.admin-content {
+    background: #f6f7fb;
+}
+
+@media (max-width: 991.98px) {
+    .admin-wrap {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-sidebar {
+        position: static;
+        height: auto;
+    }
+}
+
+/* ============================================================
+   🔹 CARD & KPI STYLES
+   ============================================================ */
+.card.admin {
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+
+.card.admin .card-header {
+    background: transparent;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.kpi .value {
+    font-size: clamp(1.6rem, 1.2rem + 1.2vw, 2.2rem);
+    font-weight: 700;
+}
+
+.kpi .label {
+    color: #6b7280;
+}
+
+.badge-accent {
+    background: var(--hero-accent);
+    color: #1b1b1b;
+}
+
+/* ============================================================
+   🔹 DARK MODE SUPPORT
+   ============================================================ */
+[data-bs-theme='dark'] .admin-content {
+    background: #0f1115;
+}
+
+[data-bs-theme='dark'] .card.admin {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* ============================================================
+   🔹 BADGE CUSTOM COLORS
+   ============================================================ */
+.badge.text-bg-warning {
+    background-color: #ffb84d !important;
+    color: #212529 !important;
+}
+
+.badge.text-bg-success {
+    background-color: #198754 !important;
+}
+
+.badge.text-bg-secondary {
+    background-color: #bac555 !important;
+}
+
+.badge.text-bg-dark {
+    background-color: #9a2525 !important;
+}
+
+/* ============================================================
+   🔹 TABLE & CELL TWEAKS
+   ============================================================ */
+.table> :not(caption)>*>* {
+    padding: 0.75rem 0.5rem;
+}
+
+.table>thead>tr>th {
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Giới hạn cột ghi chú */
+td.note-cell {
+    max-width: 220px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+}
+
+td.note-cell:hover {
+    white-space: normal;
+    background-color: rgba(0, 0, 0, 0.03);
+    cursor: help;
+}
+
+/* ============================================================
+   🔹 DASHBOARD CARD & ANIMATION
+   ============================================================ */
+.card.shadow-sm {
+    transition: all 0.3s ease;
+}
+
+.card.shadow-sm:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12) !important;
+}
+
+.card.shadow-sm .border-start {
+    transition: width 0.3s ease;
+}
+
+.card.shadow-sm:hover .border-start {
+    border-width: 5px !important;
+}
+
+/* Recent activities animation */
+#recentList>div {
+    animation: fadeInSlide 0.3s ease;
+}
+
+@keyframes fadeInSlide {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ============================================================
+   🔹 SORTABLE TABLE HEADER
+   ============================================================ */
+thead th.sort-header {
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+thead th.sort-header:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+thead th.sort-header i {
+    transition: all 0.2s ease;
+}
+
+thead th.sort-header:hover i {
+    opacity: 1 !important;
+    color: var(--bs-primary);
+}
+
+[data-bs-theme='dark'] thead th.sort-header:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* ============================================================
+   🔹 SIDEBAR NHÓM (Books, Categories, etc.)
+   ============================================================ */
+.nav-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 6px;
+}
+
+.nav-parent {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    color: #eaf2ff;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition:
+        background 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+        border-left 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.2s ease,
+        padding-left 0.25s ease,
+        box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+        color 0.25s ease;
+    border-left: 3px solid transparent;
+    position: relative;
+}
+
+.nav-parent>i:first-child {
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-parent:hover {
+    background: rgba(255, 255, 255, 0.12);
+    transform: translateX(2px);
+}
+
+.nav-parent:hover>i:first-child {
+    transform: scale(1.1);
+}
+
+.nav-parent:active {
+    transform: translateX(0);
+}
+
+.nav-parent:active>i:first-child {
+    transform: scale(0.95);
+}
+
+/* ✅ Active state cho nav-parent: background nhạt + viền trái màu accent - GIỐNG NÚT LOANS */
+.nav-parent.active {
+    background: rgba(255, 255, 255, 0.18) !important;
+    font-weight: 600 !important;
+    border-left: 3px solid var(--hero-accent) !important;
+    padding-left: 15px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+    color: #fff !important;
+}
+
+.nav-parent.active>i:first-child {
+    transform: scale(1.05) !important;
+    color: #fff !important;
+}
+
+.nav-parent i.bi-chevron-down {
+    font-size: 0.8rem;
+    opacity: 0.8;
+    transition:
+        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.25s ease;
+}
+
+.nav-group.open .nav-parent i.bi-chevron-down {
+    transform: rotate(180deg);
+    opacity: 1;
+}
+
+.nav-parent:hover i.bi-chevron-down {
+    opacity: 1;
+}
+
+/* ✅ Gộp lại .nav-sub (chỉ 1 bản duy nhất, có animation) */
+.nav-sub {
+    display: none;
+    flex-direction: column;
+    margin-left: 38px;
+    margin-top: 4px;
+    transition: all 0.25s ease;
+    overflow: hidden;
+}
+
+.nav-sub a {
+    color: #e0e8ff;
+    font-size: 0.95rem;
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition:
+        color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+        background 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+        border-left 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.2s ease,
+        padding-left 0.25s ease,
+        box-shadow 0.25s ease;
+    display: block;
+    margin: 2px 0;
+    border-left: 3px solid transparent;
+    position: relative;
+}
+
+.nav-sub a:hover {
+    color: var(--hero-accent);
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateX(4px);
+    padding-left: 16px;
+}
+
+/* ✅ Active state cho sub-menu: GIỐNG NÚT LOANS */
+.nav-sub a.active {
+    color: var(--hero-accent) !important;
+    font-weight: 600 !important;
+    background: rgba(255, 255, 255, 0.18) !important;
+    padding-left: 16px !important;
+    border-left: 3px solid var(--hero-accent) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.nav-group.open .nav-sub {
+    display: flex;
+    animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ✅ Animation cho menu items khi load - tạo hiệu ứng xuất hiện mượt mà */
+.admin-nav>a,
+.nav-group .nav-parent {
+    animation: fadeInSlide 0.4s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+}
+
+/* Stagger animation cho các menu items - tạo hiệu ứng cascade */
+.admin-nav>a:nth-child(1) {
+    animation-delay: 0.05s;
+}
+
+.admin-nav>a:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.admin-nav>a:nth-child(3) {
+    animation-delay: 0.15s;
+}
+
+.admin-nav>a:nth-child(4) {
+    animation-delay: 0.2s;
+}
+
+.admin-nav>a:nth-child(5) {
+    animation-delay: 0.25s;
+}
+
+.admin-nav>a:nth-child(6) {
+    animation-delay: 0.3s;
+}
+
+.admin-nav>a:nth-child(7) {
+    animation-delay: 0.35s;
+}
+
+.admin-nav>a:nth-child(8) {
+    animation-delay: 0.4s;
+}
+
+.admin-nav>a:nth-child(9) {
+    animation-delay: 0.45s;
+}
+
+.admin-nav>a:nth-child(10) {
+    animation-delay: 0.5s;
+}
+
+.nav-group:nth-of-type(1) .nav-parent {
+    animation-delay: 0.15s;
+}
+
+.nav-group:nth-of-type(2) .nav-parent {
+    animation-delay: 0.55s;
+}
+
+/* ✅ Animation cho sidebar footer buttons */
+.admin-sidebar-footer button {
+    animation: fadeInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+}
+
+.admin-sidebar-footer #btnTheme {
+    animation-delay: 0.6s;
+}
+
+.admin-sidebar-footer #btnLogout {
+    animation-delay: 0.65s;
+}
+
+@keyframes fadeInSlide {
+    from {
+        opacity: 0;
+        transform: translateX(-12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================================
+   🔹 UPLOAD PREVIEW (Book Add)
+   ============================================================ */
+.upload-preview {
+    width: 150px;
+    height: 200px;
+    border: 2px dashed rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.25s ease;
+}
+
+.upload-preview:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.upload-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+/* ============================================================
+   🔹 BOOK THUMBNAIL
+   ============================================================ */
+.book-thumb {
+    width: 70px;
+    height: 95px;
+    border-radius: 6px;
+    object-fit: cover;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.book-thumb:hover {
+    transform: scale(1.05);
+}
+
+/* ============================================================
+   🔹 BOOK CARD DETAIL
+   ============================================================ */
+.book-card {
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    border-radius: 0.75rem;
+    background: var(--bs-body-bg);
+}
+
+.book-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* ============================================================
+   🔹 BOOKS COLUMN (Category & Author List)
+   ============================================================ */
+td[id^='books-'] {
+    color: #0b1b35;
+    font-weight: 500;
+}
+
+[data-bs-theme='dark'] td[id^='books-'] {
+    color: #eaf2ff;
+}
+
+/* ===== User Role Badges ===== */
+.badge-role {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.35rem 0.55rem;
+    border-radius: 0.4rem;
+    text-transform: capitalize;
+    color: #fff;
+}
+
+.badge-role.admin {
+    background-color: #dc3545;
+    /* đỏ */
+}
+
+.badge-role.librarian {
+    background-color: #d39e00;
+    /* vàng */
+}
+
+.badge-role.readers {
+    background-color: #198754;
+    /* xanh */
+}
+
+/* Hover nhẹ cho các dòng trong bảng admin */
+.table tbody tr {
+    transition: background-color 0.25s ease;
+}
+
+.table tbody tr:hover {
+    background-color: rgba(13, 110, 253, 0.05);
+    /* xanh nhạt */
+}
+
+/* Pagination đẹp hơn */
+.pagination .page-item .page-link {
+    color: #0d6efd;
+    border-radius: 8px;
+    margin: 0 2px;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #0d6efd;
+    color: #fff;
+    box-shadow: 0 2px 6px rgba(13, 110, 253, 0.25);
+}
+
+.pagination .page-item .page-link:hover {
+    background-color: rgba(13, 110, 253, 0.1);
+}
+
+/* Căn chỉnh khoảng cách cho cột Created / Updated */
+/* ===== Beautify Created / Updated column ===== */
+td.date-cell {
+    line-height: 1.4 !important;
+    vertical-align: middle !important;
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+    white-space: nowrap;
+}
+
+td.date-cell span {
+    display: block;
+    font-weight: 500;
+    color: #111827;
+    font-size: 0.95rem;
+}
+
+td.date-cell small {
+    display: block;
+    margin-top: 2px;
+    font-size: 0.82rem;
+    color: #6c757d;
+}
+
+/* Dark mode */
+[data-bs-theme='dark'] td.date-cell span {
+    color: #e5e7eb;
+}
+
+[data-bs-theme='dark'] td.date-cell small {
+    color: #9ca3af;
+}
+
+/* Đảm bảo canvas luôn chiếm hết chiều ngang thẻ cha */
+#chart7d {
+    width: 100% !important;
+    height: 140px;
+    /* Chiều cao cố định */
+    display: block;
+}
+
+/* Container chứa cả biểu đồ và ngày tháng */
+.chart-container-wrapper {
+    position: relative;
+    width: 100%;
+    padding: 0 10px;
+    /* Thêm chút padding để cột ngoài cùng không bị sát mép */
+}
+
+/* ============================================================
+   🔹 SIDEBAR FOOTER (THEME + LOGOUT BUTTONS)
+   ============================================================ */
+/* ✅ .btn-theme-sidebar: Nút Theme toggle với icon và label động */
+.btn-theme-sidebar {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    transition:
+        background 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.2s ease,
+        box-shadow 0.3s ease;
+    height: 42px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.btn-theme-sidebar:hover {
+    background: rgba(255, 255, 255, 0.18) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-theme-sidebar:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-theme-sidebar i {
+    font-size: 1.1rem;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-theme-sidebar:hover i {
+    transform: scale(1.1);
+}
+
+/* ✅ .btn-logout-sidebar: Nút Logout ở sidebar với hover effect đỏ nhạt */
+.btn-logout-sidebar {
+    background: transparent;
+    color: #fff;
+    transition:
+        background 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        color 0.3s ease,
+        transform 0.2s ease,
+        box-shadow 0.3s ease;
+    height: 42px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.btn-logout-sidebar:hover {
+    background: rgba(220, 53, 69, 0.25) !important;
+    /* Đỏ nhạt khi hover */
+    color: #fff !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.2);
+}
+
+.btn-logout-sidebar:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(220, 53, 69, 0.15);
+}
+
+.btn-logout-sidebar i {
+    transition:
+        color 0.3s ease,
+        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-logout-sidebar:hover i {
+    color: #fff !important;
+    transform: translateX(2px);
+}
+
+/* ============================================================
+   🔹 RECENT LOANS SCROLL
+   ============================================================ */
+.recent-loans-scroll {
+    max-height: 260px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* Làm thanh cuộn gọn hơn một chút */
+.recent-loans-scroll::-webkit-scrollbar {
+    width: 6px;
+}
+
+.recent-loans-scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.recent-loans-scroll::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background-color: rgba(0, 0, 0, 0.15);
+}
+
+.recent-loans-scroll::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.25);
+}
+
+.books-cell {
+    max-width: 260px;
+    /* tùy layout */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.loan-book-card {
+    background-color: var(--bs-body-bg);
+    box-shadow: 0 0.1rem 0.25rem rgba(15, 23, 42, 0.05);
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.loan-book-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.4rem 1rem rgba(15, 23, 42, 0.18);
+}
+
+#depositQrSection .qr-box {
+    background: #ffffff;
+}
+
+#depositQrSection .info-box {
+    background: #f8f9fa;
+}
+
+#depositQrSection .fw-semibold {
+    font-size: 0.95rem;
+}

@@ -1,0 +1,926 @@
+/* ===== Library Management System - Ocean Blue Theme (Merged) ===== */
+
+:root {
+    /* Ocean Blue Theme Colors */
+    --hero-from: #0c4a6e;
+    --hero-to: #0891b2;
+    --hero-accent: #06b6d4;
+
+    /* Primary Colors */
+    --primary: #0c4a6e;
+    --primary-light: #0369a1;
+    --primary-dark: #082f49;
+    --secondary: #0891b2;
+    --accent: #06b6d4;
+
+    /* Semantic Colors */
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --info: #3b82f6;
+
+    /* Gradients */
+    --ocean-gradient: linear-gradient(135deg, #0c4a6e 0%, #0891b2 100%);
+    --ocean-gradient-reverse: linear-gradient(135deg, #0891b2 0%, #0c4a6e 100%);
+
+    /* Neutrals */
+    --bg-light: #f6f7fb;
+    --bg-dark: #0f1115;
+    --text-primary: #1f2937;
+    --text-secondary: #6b7280;
+    --border-color: rgba(6, 182, 212, 0.2);
+}
+
+/* ===== Base ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family:
+        'Segoe UI',
+        system-ui,
+        -apple-system,
+        sans-serif;
+    background: var(--bg-light);
+    color: var(--text-primary);
+}
+
+/* ===== Hero Banner ===== */
+.hero {
+    background: var(--ocean-gradient);
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+    padding: 3rem 0;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    inset: -20% -10% auto -10%;
+    height: 300px;
+    background: radial-gradient(closest-side, rgba(6, 182, 212, 0.2), transparent 70%);
+    filter: blur(25px);
+    animation: float 20s ease-in-out infinite;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    50% {
+        transform: translate(-50px, -50px) scale(1.1);
+    }
+}
+
+.hero .container {
+    position: relative;
+    z-index: 1;
+}
+
+/* Stat Pills */
+.hero .stat-pill {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 1rem;
+    padding: 1rem 1.25rem;
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.hero .stat-pill:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.hero .ico-wrap {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.hero .ico-wrap i {
+    color: #fff;
+    font-size: 1.25rem;
+}
+
+.hero .stat-label {
+    font-size: 0.85rem;
+    opacity: 0.9;
+    font-weight: 500;
+}
+
+.hero .stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.hero .stat-hint {
+    font-size: 0.75rem;
+    opacity: 0.75;
+}
+
+/* ===== Chips Scroll ===== */
+.chip-scroll {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 0.5rem 0;
+}
+
+.chip {
+    display: inline-block;
+    margin-right: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    background: white;
+    border: 2px solid var(--border-color);
+    color: var(--primary);
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.chip:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.chip.active {
+    background: var(--ocean-gradient);
+    color: white;
+    border: none;
+}
+
+/* ===== Card ===== */
+.card {
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0 6px 20px rgba(12, 74, 110, 0.08);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 35px rgba(12, 74, 110, 0.15);
+}
+
+.object-fit-cover {
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.card:hover .object-fit-cover {
+    transform: scale(1.05);
+}
+
+/* ===== Toast ===== */
+.toast-container {
+    z-index: 1090;
+}
+
+/* ===== Dark Mode ===== */
+[data-bs-theme='dark'] body {
+    background: var(--bg-dark);
+    color: #e5e7eb;
+}
+
+[data-bs-theme='dark'] .card {
+    background: #1a1d24;
+    color: #e5e7eb;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== Buttons ===== */
+.btn {
+    border-radius: 0.75rem;
+    font-weight: 600;
+    padding: 0.65rem 1.5rem;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: var(--ocean-gradient);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--ocean-gradient-reverse);
+    transform: translateY(-2px);
+}
+
+/* Smooth active state */
+.btn-lg.active {
+    box-shadow: inset 0 0 0 2px rgba(12, 74, 110, 0.15);
+}
+
+/* ===== Animations ===== */
+@keyframes pulse {
+    0% {
+        background-position: 100% 0;
+    }
+
+    100% {
+        background-position: 0 0;
+    }
+}
+
+.book-card {
+    border-radius: 0.75rem;
+    overflow: hidden;
+}
+
+.book-cover-wrapper {
+    position: relative;
+    width: 100%;
+    padding-top: 133%;
+    /* ~3:4 */
+    background: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.book-cover-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.book-cover-placeholder {
+    font-size: 2.5rem;
+    color: #c4b6a6;
+}
+
+/* ===== Profile About Section ===== */
+
+.profile-about-wrapper {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}
+
+/* Section giống demo */
+.section.profile-about-section {
+    padding: 60px 0;
+    position: relative;
+    background-color: #f5f5f5;
+    border-radius: 1rem;
+}
+
+.profile-about-section .about-text h3 {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0 0 6px;
+}
+
+.profile-about-section .about-text h6 {
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: var(--accent);
+}
+
+.profile-about-section .about-text p {
+    font-size: 15px;
+    max-width: 480px;
+}
+
+.profile-about-section .about-text p mark {
+    font-weight: 600;
+    color: var(--primary);
+}
+
+/* About list (label + value) */
+.profile-about-section .about-list {
+    padding-top: 10px;
+}
+
+.profile-about-section .about-list .media {
+    display: flex;
+    align-items: center;
+    padding: 5px 0;
+}
+
+.profile-about-section .about-list label {
+    color: var(--primary-dark);
+    font-weight: 600;
+    width: 110px;
+    margin: 0;
+    position: relative;
+    font-size: 0.9rem;
+}
+
+.profile-about-section .about-list label:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 8px;
+    width: 1px;
+    height: 12px;
+    background: var(--primary-dark);
+    transform: rotate(15deg);
+    margin: auto;
+    opacity: 0.4;
+}
+
+.profile-about-section .about-list p {
+    margin: 0;
+    font-size: 0.9rem;
+    flex: 1;
+}
+
+/* Input embed trong p để vẫn giống demo */
+.profile-about-section .about-list .form-control {
+    padding: 0;
+    border: 0;
+    border-bottom: 1px dashed rgba(148, 163, 184, 0.8);
+    border-radius: 0;
+    background: transparent;
+    font-size: 0.9rem;
+}
+
+.profile-about-section .about-list .form-control:focus {
+    box-shadow: none;
+    border-bottom-color: var(--accent);
+}
+
+/* Avatar card */
+.profile-about-section .about-avatar {
+    text-align: center;
+}
+
+.profile-about-section .about-avatar-inner {
+    background: #ffffff;
+    border-radius: 1rem;
+    padding: 5rem 1.25rem;
+    box-shadow: 0 0 30px rgba(31, 45, 61, 0.18);
+}
+
+.profile-about-section .about-avatar img {
+    max-width: 160px;
+    border-radius: 999px;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.35);
+}
+
+.profile-about-section .badge-role {
+    margin-top: 1rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+/* Counter stats giống demo */
+.profile-about-section .counter {
+    margin-top: 2rem;
+    padding: 18px 20px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 30px rgba(31, 45, 61, 0.12);
+}
+
+.profile-about-section .counter .count-data {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.profile-about-section .counter .count {
+    font-weight: 700;
+    color: var(--primary);
+    margin: 0 0 5px;
+}
+
+.profile-about-section .counter p {
+    font-weight: 600;
+    margin: 0;
+    font-size: 0.8rem;
+}
+
+/* Nhóm card bên dưới (change pass + notif) */
+.profile-bottom-cards .card {
+    border-radius: 12px;
+}
+
+/* Responsive tweaks */
+@media (max-width: 991px) {
+    .profile-about-section .about-avatar {
+        margin-top: 30px;
+    }
+}
+
+@media (max-width: 767px) {
+    .profile-about-section .about-text h3 {
+        font-size: 26px;
+    }
+}
+
+/* ===== Auth Pages (Login / Register) ===== */
+
+body.auth-body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #eef2ff 0%, #f9fafb 100%);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow-y: auto;
+}
+
+.auth-card {
+    max-width: 900px;
+    width: 100%;
+    border: 0;
+    border-radius: 32px;
+    overflow: hidden;
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.18);
+    background: #fff;
+    position: relative;
+    transition:
+        transform 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.auth-left {
+    background: #ffffff;
+    transition:
+        opacity 0.45s ease,
+        transform 0.45s ease;
+}
+
+.auth-right {
+    background: linear-gradient(145deg, rgba(6, 182, 212, 0.2), #2563eb);
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+}
+
+.auth-right::before {
+    content: '';
+    position: absolute;
+    top: -20%;
+    left: -25%;
+    width: 180%;
+    height: 140%;
+    background: rgba(37, 99, 235, 0.6);
+    border-radius: 50%;
+    transform: translateX(8%);
+}
+
+.auth-right-inner {
+    position: relative;
+    z-index: 1;
+}
+
+.auth-title {
+    font-weight: 700;
+    letter-spacing: 0.03em;
+}
+
+.auth-subtitle {
+    font-size: 0.9rem;
+    color: #6b7280;
+}
+
+.social-row button {
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.divider-text {
+    position: relative;
+    text-align: center;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #9ca3af;
+    margin: 1.25rem 0;
+}
+
+.divider-text::before,
+.divider-text::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 30%;
+    height: 1px;
+    background: #e5e7eb;
+}
+
+.divider-text::before {
+    left: 0;
+}
+
+.divider-text::after {
+    right: 0;
+}
+
+@media (max-width: 767.98px) {
+    .auth-card {
+        margin: 1.25rem;
+        border-radius: 20px;
+    }
+
+    .auth-right {
+        min-height: 220px;
+    }
+}
+
+/* ===== Center Auth Card ===== */
+.auth-main {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem 0;
+    position: relative;
+    z-index: 1;
+}
+
+/* ===== Animated book background for auth pages ===== */
+
+.auth-bg-books {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.auth-bg-books::before {
+    content: '';
+    position: absolute;
+    inset: -10%;
+    background-image: url('../img/auth-books.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.8;
+    filter: blur(0.1px) saturate(0.85);
+    transform: scale(0.83);
+    z-index: -1;
+}
+
+/* Bong bóng sách chung */
+.book-orb {
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.988);
+    border: 1px solid rgba(241, 241, 241, 0.9);
+    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.22);
+    backdrop-filter: blur(1px);
+    color: #1d4ed8;
+    font-size: 2rem;
+    opacity: 0.9;
+    animation: floatBook 26s linear infinite;
+}
+
+/* Vị trí & độ trễ khác nhau cho từng quả */
+.orb-1 {
+    top: 10%;
+    left: 8%;
+    animation-duration: 30s;
+    animation-delay: -4s;
+}
+
+.orb-2 {
+    top: 70%;
+    left: 15%;
+    animation-duration: 24s;
+    animation-delay: -10s;
+}
+
+.orb-3 {
+    top: 20%;
+    right: 10%;
+    animation-duration: 28s;
+    animation-delay: -7s;
+}
+
+.orb-4 {
+    top: 75%;
+    right: 18%;
+    animation-duration: 34s;
+    animation-delay: -15s;
+}
+
+.orb-5 {
+    top: 45%;
+    left: 50%;
+    transform: translateX(-50%);
+    animation-duration: 32s;
+    animation-delay: -2s;
+}
+
+@keyframes floatBook {
+    0% {
+        transform: translate3d(0, 0, 0) scale(1);
+        opacity: 0.6;
+    }
+
+    25% {
+        transform: translate3d(20px, -40px, 0) scale(1.03);
+        opacity: 0.85;
+    }
+
+    50% {
+        transform: translate3d(-10px, -80px, 0) scale(1.06);
+        opacity: 1;
+    }
+
+    75% {
+        transform: translate3d(-30px, -40px, 0) scale(1.03);
+        opacity: 0.85;
+    }
+
+    100% {
+        transform: translate3d(0, 0, 0) scale(1);
+        opacity: 0.6;
+    }
+}
+
+/* ===== Password toggle button ===== */
+.password-group .form-control {
+    border-right: 0;
+}
+
+.btn-password-toggle {
+    border-left: 0;
+    border-radius: 0 0.75rem 0.75rem 0;
+    padding-inline: 0.6rem;
+    background: #f9fafb;
+    color: #6b7280;
+    border: 1px solid #e5e7eb;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-password-toggle i {
+    font-size: 1rem;
+}
+
+.btn-password-toggle:hover {
+    background: #eef2ff;
+    color: #374151;
+}
+
+.password-group .form-control:focus {
+    box-shadow: none;
+    border-color: var(--primary-light);
+}
+
+.password-group .form-control:focus+.btn-password-toggle {
+    border-color: var(--primary-light);
+}
+
+/* ===== Auth card "book" transition ===== */
+
+.auth-card.anim-to-register {
+    box-shadow: 0 28px 80px rgba(15, 23, 42, 0.35);
+}
+
+.auth-card.anim-to-register .auth-right {
+    transform: translateX(-100%);
+    border-radius: 32px 0 0 32px;
+}
+
+.auth-card.anim-to-login {
+    box-shadow: 0 28px 80px rgba(15, 23, 42, 0.35);
+}
+
+.auth-card.anim-to-login .auth-right {
+    transform: translateX(100%);
+    border-radius: 0 32px 32px 0;
+}
+
+.auth-card.anim-to-register .auth-left,
+.auth-card.anim-to-login .auth-left {
+    opacity: 0;
+    transform: translateX(40px);
+}
+
+@media (max-width: 767.98px) {
+
+    .auth-card.anim-to-register,
+    .auth-card.anim-to-login {
+        transform: none;
+    }
+
+    .auth-card.anim-to-register .auth-right,
+    .auth-card.anim-to-login .auth-right {
+        transform: translateY(-100%);
+    }
+}
+
+/* Giới hạn bề rộng nội dung form Login / Register */
+.auth-left-content {
+    max-width: 420px;
+    margin: 0 auto;
+}
+
+@media (max-width: 767.98px) {
+    .auth-left-content {
+        max-width: 100%;
+    }
+}
+
+.loan-action {
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+}
+
+.loan-action i {
+    font-size: 1.2rem;
+}
+
+/* ===== Admin Sidebar (Theme & Logout buttons) ===== */
+
+.admin-sidebar-footer {
+    padding: 1rem 1.25rem 1.5rem;
+    border-top: 1px solid rgba(15, 23, 42, 0.25);
+}
+
+.admin-sidebar .btn-theme-sidebar,
+.admin-sidebar .btn-logout-sidebar {
+    font-size: 0.875rem;
+}
+
+/* Theme toggle pill */
+.btn-theme-sidebar {
+    background: rgba(15, 23, 42, 0.18);
+    border-radius: 999px;
+    border: 1px solid rgba(148, 163, 184, 0.45);
+    color: #f9fafb;
+    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.35);
+}
+
+.btn-theme-sidebar:hover {
+    background: rgba(15, 23, 42, 0.28);
+    border-color: rgba(148, 163, 184, 0.7);
+    transform: translateY(-1px);
+}
+
+.btn-theme-sidebar:active {
+    transform: translateY(0);
+    box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.6);
+}
+
+/* Logout button */
+.btn-logout-sidebar {
+    background: transparent;
+    border-radius: 999px;
+    color: #e5e7eb;
+    border: 1px solid transparent;
+    justify-content: flex-start;
+}
+
+.btn-logout-sidebar i {
+    font-size: 1rem;
+}
+
+.btn-logout-sidebar:hover {
+    background: rgba(239, 68, 68, 0.16);
+    border-color: rgba(239, 68, 68, 0.4);
+    color: #fee2e2;
+    transform: translateY(-1px);
+}
+
+.btn-logout-sidebar:active {
+    transform: translateY(0);
+}
+
+/* Dark mode tweak for sidebar buttons */
+[data-bs-theme='dark'] .btn-theme-sidebar {
+    background: rgba(15, 23, 42, 0.8);
+    border-color: rgba(148, 163, 184, 0.6);
+}
+
+[data-bs-theme='dark'] .btn-logout-sidebar {
+    color: #e5e7eb;
+    background: transparent;
+}
+
+[data-bs-theme='dark'] .btn-logout-sidebar:hover {
+    background: rgba(239, 68, 68, 0.25);
+    border-color: rgba(239, 68, 68, 0.6);
+}
+
+/* Button Books trên navbar */
+.navbar .nav-books-link {
+    border-radius: 999px;
+    font-weight: 600;
+}
+
+/* Khi đang ở Home / My Books (được gán .active trong JS) thì nhấn mạnh hơn */
+.navbar .nav-books-link.active {
+    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.25);
+}
+
+/* Dark mode */
+[data-bs-theme='dark'] .navbar .nav-books-link {
+    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.6);
+}
+
+.navbar .brand-main {
+    font-size: 1.6rem;
+    /* mặc định ~1.25rem, giờ to hơn */
+    letter-spacing: 0.03em;
+}
+
+/* Mobile: thu nhỏ lại cho đỡ vỡ layout */
+@media (max-width: 576px) {
+    .navbar .brand-main {
+        font-size: 1.35rem;
+    }
+}
+
+/* ===== Pretty pager for Browse ===== */
+.pagination.pager-modern {
+    gap: 0.35rem;
+    /* khoảng cách giữa các nút */
+}
+
+.pagination.pager-modern .page-item {
+    /* bỏ bullet nếu có */
+    list-style: none;
+}
+
+.pagination.pager-modern .page-link {
+    min-width: 34px;
+    height: 34px;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    /* bo tròn kiểu pill */
+    border: none;
+    background: #f5f7fb;
+    color: #1f3b57;
+    font-weight: 500;
+    box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.04);
+    transition:
+        background-color 0.18s ease,
+        color 0.18s ease,
+        box-shadow 0.18s ease,
+        transform 0.12s ease;
+}
+
+/* Hover */
+.pagination.pager-modern .page-link:hover {
+    background: #e3ecff;
+    color: #0f3cff;
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
+    transform: translateY(-1px);
+}
+
+/* Active page */
+.pagination.pager-modern .page-item.active .page-link {
+    background: #0f6cff;
+    /* hoặc var(--bs-primary) nếu bạn dùng */
+    color: #fff;
+    box-shadow: 0 8px 20px rgba(15, 108, 255, 0.4);
+    cursor: default;
+}
+
+/* Disabled (nút « ») */
+.pagination.pager-modern .page-item.disabled .page-link {
+    background: #f1f5f9;
+    color: #cbd5f5;
+    box-shadow: none;
+    cursor: default;
+}
+
+/* Focus outline nhỏ gọn hơn */
+.pagination.pager-modern .page-link:focus {
+    box-shadow: 0 0 0 2px rgba(15, 108, 255, 0.3);
+}
